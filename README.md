@@ -24,6 +24,7 @@ new SpotlightView.Builder(this)
         .subHeadingTvText("Like the picture?\nLet others know.")
         .maskColor(Color.parseColor("#dc000000"))
         .target(view)
+        //.setRectShape()
         .lineAnimDuration(400)
         .lineAndArcColor(Color.parseColor("#eb273f"))
         .dismissOnTouch(true)
@@ -52,7 +53,7 @@ new SpotlightView.Builder(this)
     ```javascript
     dependencies {
         ...
-        implementation 'com.github.wooplr:Spotlight:1.3.1'
+        implementation 'com.github.wokrey:Spotlight:1.3.1'
     }
     ```
 
