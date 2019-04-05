@@ -39,6 +39,8 @@ import android.widget.TextView;
 import com.wooplr.spotlight.prefs.PreferencesManager;
 import com.wooplr.spotlight.shape.Circle;
 import com.wooplr.spotlight.shape.NormalLineAnimDrawable;
+import com.wooplr.spotlight.shape.Rectangle;
+import com.wooplr.spotlight.shape.Shape;
 import com.wooplr.spotlight.target.AnimPoint;
 import com.wooplr.spotlight.target.Target;
 import com.wooplr.spotlight.target.ViewTarget;
@@ -82,7 +84,7 @@ public class SpotlightView extends FrameLayout {
     /**
      * Overlay circle above the view
      */
-    private Circle circleShape;
+    private Shape shape;
 
     /**
      * Target View
@@ -172,6 +174,7 @@ public class SpotlightView extends FrameLayout {
     private int subHeadingTvSizeDimenUnit = -1;
     private int subHeadingTvColor = Color.parseColor("#ffffff");
     private CharSequence subHeadingTvText = "Hello";
+    private boolean isRectShape = false;
 
     /**
      * Values for line animation
@@ -250,7 +253,7 @@ public class SpotlightView extends FrameLayout {
             this.canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             this.canvas.drawColor(maskColor);
 
-            circleShape.draw(this.canvas, eraser, padding);
+            shape.draw(this.canvas, eraser, padding);
 
             canvas.drawBitmap(bitmap, 0, 0, null);
         }catch(Exception e){
@@ -264,10 +267,10 @@ public class SpotlightView extends FrameLayout {
         float xT = event.getX();
         float yT = event.getY();
 
-        int xV = circleShape.getPoint().x;
-        int yV = circleShape.getPoint().y;
+        int xV = shape.getPoint().x;
+        int yV = shape.getPoint().y;
 
-        int radius = circleShape.getRadius();
+        int radius = shape.getRadius();
 
         double dx = Math.pow(xT - xV, 2);
         double dy = Math.pow(yT - yV, 2);
@@ -502,30 +505,31 @@ public class SpotlightView extends FrameLayout {
      */
     private void addArcAnimation(final Activity activity) {
         AppCompatImageView mImageView = new AppCompatImageView(activity);
-        mImageView.setImageResource(R.drawable.ic_spotlight_arc);
-        LayoutParams params = new LayoutParams(2 * (circleShape.getRadius() + extraPaddingForArc),
-                2 * (circleShape.getRadius() + extraPaddingForArc));
+        int drawInt = isRectShape ? R.drawable.ic_spotlight_half_rect : R.drawable.ic_spotlight_arc;
+        mImageView.setImageResource(drawInt);
+        LayoutParams params = new LayoutParams(2 * (shape.getRadius() + extraPaddingForArc),
+                2 * (shape.getRadius() + extraPaddingForArc));
 
 
         if (targetView.getPoint().y > getHeight() / 2) {//bottom
             if (targetView.getPoint().x > getWidth() / 2) {//Right
-                params.rightMargin = getWidth() - targetView.getPoint().x - circleShape.getRadius() - extraPaddingForArc;
-                params.bottomMargin = getHeight() - targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc;
+                params.rightMargin = getWidth() - targetView.getPoint().x - shape.getRadius() - extraPaddingForArc;
+                params.bottomMargin = getHeight() - targetView.getPoint().y - shape.getRadius() - extraPaddingForArc;
                 params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             } else {
-                params.leftMargin = targetView.getPoint().x - circleShape.getRadius() - extraPaddingForArc;
-                params.bottomMargin = getHeight() - targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc;
+                params.leftMargin = targetView.getPoint().x - shape.getRadius() - extraPaddingForArc;
+                params.bottomMargin = getHeight() - targetView.getPoint().y - shape.getRadius() - extraPaddingForArc;
                 params.gravity = Gravity.LEFT | Gravity.BOTTOM;
             }
         } else {//up
             mImageView.setRotation(180); //Reverse the view
             if (targetView.getPoint().x > getWidth() / 2) {//Right
-                params.rightMargin = getWidth() - targetView.getPoint().x - circleShape.getRadius() - extraPaddingForArc;
-                params.bottomMargin = getHeight() - targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc;
+                params.rightMargin = getWidth() - targetView.getPoint().x - shape.getRadius() - extraPaddingForArc;
+                params.bottomMargin = getHeight() - targetView.getPoint().y - shape.getRadius() - extraPaddingForArc;
                 params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
             } else {
-                params.leftMargin = targetView.getPoint().x - circleShape.getRadius() - extraPaddingForArc;
-                params.bottomMargin = getHeight() - targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc;
+                params.leftMargin = targetView.getPoint().x - shape.getRadius() - extraPaddingForArc;
+                params.bottomMargin = getHeight() - targetView.getPoint().y - shape.getRadius() - extraPaddingForArc;
                 params.gravity = Gravity.LEFT | Gravity.BOTTOM;
             }
 
@@ -536,15 +540,17 @@ public class SpotlightView extends FrameLayout {
 
         PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(lineAndArcColor,
                 PorterDuff.Mode.SRC_ATOP);
+
+        int avdInt = isRectShape ? R.drawable.avd_spotlight_half_rect : R.drawable.avd_spotlight_arc;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             AnimatedVectorDrawable avd = (AnimatedVectorDrawable)
-                    ContextCompat.getDrawable(activity, R.drawable.avd_spotlight_arc);
+                    ContextCompat.getDrawable(activity, avdInt);
             avd.setColorFilter(porterDuffColorFilter);
             mImageView.setImageDrawable(avd);
             avd.start();
         } else {
             AnimatedVectorDrawableCompat avdc =
-                    AnimatedVectorDrawableCompat.create(activity, R.drawable.avd_spotlight_arc);
+                    AnimatedVectorDrawableCompat.create(activity, avdInt);
             avdc.setColorFilter(porterDuffColorFilter);
             mImageView.setImageDrawable(avdc);
             avdc.start();
@@ -699,7 +705,7 @@ public class SpotlightView extends FrameLayout {
         if (targetView.getPoint().y > screenHeight / 2) {//Down TODO: add a logic for by 2
             if (targetView.getPoint().x > screenWidth / 2) {//Right
                 animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2),
-                        targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc, (targetView.getViewRight() - targetView.getViewWidth() / 2),
+                        targetView.getPoint().y - shape.getRadius() - extraPaddingForArc, (targetView.getViewRight() - targetView.getViewWidth() / 2),
                         targetView.getViewTop() / 2
                 ));
                 animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2),
@@ -723,7 +729,7 @@ public class SpotlightView extends FrameLayout {
                 subHeadingTv.setGravity(Gravity.LEFT);
 
             } else {//left
-                animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2), targetView.getPoint().y - circleShape.getRadius() - extraPaddingForArc,
+                animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2), targetView.getPoint().y - shape.getRadius() - extraPaddingForArc,
                         (targetView.getViewRight() - targetView.getViewWidth() / 2),
                         targetView.getViewTop() / 2
                 ));
@@ -760,7 +766,7 @@ public class SpotlightView extends FrameLayout {
         } else {//top
             if (targetView.getPoint().x > screenWidth / 2) {//Right
                 animPoints.add(new AnimPoint(targetView.getViewRight() - targetView.getViewWidth() / 2,
-                        targetView.getPoint().y + circleShape.getRadius() + extraPaddingForArc,
+                        targetView.getPoint().y + shape.getRadius() + extraPaddingForArc,
                         targetView.getViewRight() - targetView.getViewWidth() / 2,
                         (screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()));
 
@@ -786,7 +792,7 @@ public class SpotlightView extends FrameLayout {
 
             } else {//left
                 animPoints.add(new AnimPoint(targetView.getViewRight() - targetView.getViewWidth() / 2,
-                        targetView.getPoint().y + circleShape.getRadius() + extraPaddingForArc,
+                        targetView.getPoint().y + shape.getRadius() + extraPaddingForArc,
                         targetView.getViewRight() - targetView.getViewWidth() / 2,
                         (screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()));
 
@@ -918,8 +924,8 @@ public class SpotlightView extends FrameLayout {
         this.fadingTextDuration = fadingTextDuration;
     }
 
-    public void setCircleShape(Circle circleShape) {
-        this.circleShape = circleShape;
+    public void setShape(Shape shape) {
+        this.shape = shape;
     }
 
     public void setTargetView(Target targetView) {
@@ -962,6 +968,10 @@ public class SpotlightView extends FrameLayout {
 
     public void setSubHeadingTvText(CharSequence subHeadingTvText) {
         this.subHeadingTvText = subHeadingTvText;
+    }
+
+    public void isRectShape(boolean isRectShape){
+        this.isRectShape = isRectShape;
     }
 
     public void setLineAnimationDuration(long lineAnimationDuration) {
@@ -1169,12 +1179,21 @@ public class SpotlightView extends FrameLayout {
             spotlightView.setConfiguration(configuration);
             return this;
         }
+        public Builder setRectShape() {
+            spotlightView.isRectShape(true);
+            return this;
+        }
 
         public SpotlightView build() {
-            Circle circle = new Circle(
+            Shape shape;
+            if (spotlightView.isRectShape) {
+                shape = new Rectangle(spotlightView.targetView, spotlightView.padding);
+            } else{
+                shape = new Circle(spotlightView.targetView, spotlightView.padding);
+            } new Circle(
                     spotlightView.targetView,
                     spotlightView.padding);
-            spotlightView.setCircleShape(circle);
+            spotlightView.setShape(shape);
             if (spotlightView.dismissOnBackPress) {
                 spotlightView.enableDismissOnBackPress();
             }
