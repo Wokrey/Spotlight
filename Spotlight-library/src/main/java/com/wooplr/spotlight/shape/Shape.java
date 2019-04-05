@@ -8,7 +8,7 @@ import com.wooplr.spotlight.target.Target;
 
 public abstract class Shape {
 
-    private Target target;
+    Target target;
     int radius;
     Point circlePoint;
     int padding = 20;

@@ -15,6 +15,11 @@ public class Rectangle extends Shape {
     public void draw(Canvas canvas, Paint eraser, int padding) {
         calculateRadius(padding);
         circlePoint = getFocusPoint();
-        canvas.drawRect(circlePoint.x-radius, circlePoint.y+radius,circlePoint.x+radius, circlePoint.y - radius, eraser);
+        canvas.drawRect(circlePoint.x-radius, circlePoint.y-(target.getViewHeight()/2),circlePoint.x+radius, circlePoint.y + (target.getViewHeight()/2), eraser);
+    }
+
+    protected void calculateRadius(int padding) {
+        int side = target.getRect().width() / 2;
+        radius = side + padding;
     }
 }
