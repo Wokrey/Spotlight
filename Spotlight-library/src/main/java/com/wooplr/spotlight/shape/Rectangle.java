@@ -5,19 +5,16 @@ import android.graphics.Paint;
 
 import com.wooplr.spotlight.target.Target;
 
-/**
- * Created by jitender on 10/06/16.
- */
+public class Rectangle extends Shape {
 
-public class Circle extends Shape {
-
-    public Circle(Target target, int padding) {
+    public Rectangle(Target target, int padding) {
         super(target, padding);
     }
 
+    @Override
     public void draw(Canvas canvas, Paint eraser, int padding) {
         calculateRadius(padding);
         circlePoint = getFocusPoint();
-        canvas.drawCircle(circlePoint.x, circlePoint.y, radius, eraser);
+        canvas.drawRect(circlePoint.x-radius, circlePoint.y+radius,circlePoint.x+radius, circlePoint.y - radius, eraser);
     }
 }
