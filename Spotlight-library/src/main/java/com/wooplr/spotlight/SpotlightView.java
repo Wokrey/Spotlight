@@ -47,6 +47,7 @@ import com.wooplr.spotlight.target.ViewTarget;
 import com.wooplr.spotlight.utils.SpotlightListener;
 import com.wooplr.spotlight.utils.Utils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1030,11 +1031,11 @@ public class SpotlightView extends FrameLayout {
 
         private SpotlightView spotlightView;
 
-        private Activity activity;
+        private WeakReference<Activity> activityWR;
 
 
         public Builder(Activity activity) {
-            this.activity = activity;
+            this.activityWR = new WeakReference<>(activity);
             spotlightView = new SpotlightView(activity);
             spotlightView.setSoftwareBtnHeight(getSoftButtonsBarHeight(activity));
         }
@@ -1201,7 +1202,11 @@ public class SpotlightView extends FrameLayout {
         }
 
         public SpotlightView show() {
-            build().show(activity);
+
+            if (activityWR.get() != null) {
+                build().show(activityWR.get());
+            }
+
             return spotlightView;
         }
 
