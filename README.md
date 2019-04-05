@@ -52,7 +52,7 @@ new SpotlightView.Builder(this)
     ```javascript
     dependencies {
         ...
-        implementation 'com.github.wooplr:Spotlight:1.2.3'
+        implementation 'com.github.wooplr:Spotlight:1.3.1'
     }
     ```
 
