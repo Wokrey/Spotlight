@@ -701,12 +701,18 @@ public class SpotlightView extends FrameLayout {
 
         int extramargin = Utils.dpToPx(16);
 
+        int shapeRadiusForDiff;
+        if (isRectShape){
+            shapeRadiusForDiff = 0;
+        } else {
+            shapeRadiusForDiff = shape.getRadius();
+        }
 
         //check up or down
         if (targetView.getPoint().y > screenHeight / 2) {//Down TODO: add a logic for by 2
             if (targetView.getPoint().x > screenWidth / 2) {//Right
                 animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2),
-                        targetView.getPoint().y - shape.getRadius() - extraPaddingForArc, (targetView.getViewRight() - targetView.getViewWidth() / 2),
+                        targetView.getPoint().y - shapeRadiusForDiff - targetView.getViewHeight()/2 - extraPaddingForArc, (targetView.getViewRight() - targetView.getViewWidth() / 2),
                         targetView.getViewTop() / 2
                 ));
                 animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2),
@@ -730,7 +736,7 @@ public class SpotlightView extends FrameLayout {
                 subHeadingTv.setGravity(Gravity.LEFT);
 
             } else {//left
-                animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2), targetView.getPoint().y - shape.getRadius() - extraPaddingForArc,
+                animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2), targetView.getPoint().y - shapeRadiusForDiff - targetView.getViewHeight()/2 - extraPaddingForArc,
                         (targetView.getViewRight() - targetView.getViewWidth() / 2),
                         targetView.getViewTop() / 2
                 ));
@@ -767,7 +773,7 @@ public class SpotlightView extends FrameLayout {
         } else {//top
             if (targetView.getPoint().x > screenWidth / 2) {//Right
                 animPoints.add(new AnimPoint(targetView.getViewRight() - targetView.getViewWidth() / 2,
-                        targetView.getPoint().y + shape.getRadius() + extraPaddingForArc,
+                        targetView.getPoint().y + shapeRadiusForDiff + targetView.getViewHeight()/2 + extraPaddingForArc,
                         targetView.getViewRight() - targetView.getViewWidth() / 2,
                         (screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()));
 
@@ -793,7 +799,7 @@ public class SpotlightView extends FrameLayout {
 
             } else {//left
                 animPoints.add(new AnimPoint(targetView.getViewRight() - targetView.getViewWidth() / 2,
-                        targetView.getPoint().y + shape.getRadius() + extraPaddingForArc,
+                        targetView.getPoint().y + shapeRadiusForDiff + targetView.getViewHeight()/2 + extraPaddingForArc,
                         targetView.getViewRight() - targetView.getViewWidth() / 2,
                         (screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()));
 
