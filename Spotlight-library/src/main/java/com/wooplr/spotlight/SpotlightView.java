@@ -277,7 +277,15 @@ public class SpotlightView extends FrameLayout {
         double dy = Math.pow(yT - yV, 2);
 
         boolean isTouchOnFocus = (dx + dy) <= Math.pow(radius, 2);
+        if (isRectShape){
+            //supposed that rectangle has A,B,C,D. To define isTouchOnFocus we need only A and C coordinates
+            int xA = xV - radius;
+            int xC = xV + radius;
+            int yA = yV - targetView.getViewHeight()/2;
+            int yC = yV + targetView.getViewHeight()/2;
 
+            isTouchOnFocus = (xT >= xA && xT <=xC) && (yT >= yA && yT <= yC);
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
