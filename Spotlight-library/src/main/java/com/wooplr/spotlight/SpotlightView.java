@@ -165,6 +165,7 @@ public class SpotlightView extends FrameLayout {
      */
     private int headingTvSize = 24;
     private int headingTvSizeDimenUnit = -1;
+    private int headingTvGravity = Gravity.START;
     private int headingTvColor = Color.parseColor("#eb273f");
     private CharSequence headingTvText = "Hello";
 
@@ -173,6 +174,7 @@ public class SpotlightView extends FrameLayout {
      */
     private int subHeadingTvSize = 24;
     private int subHeadingTvSizeDimenUnit = -1;
+    private int subHeadingTvGravity = Gravity.START;
     private int subHeadingTvColor = Color.parseColor("#ffffff");
     private CharSequence subHeadingTvText = "Hello";
     private boolean isRectShape = false;
@@ -741,7 +743,7 @@ public class SpotlightView extends FrameLayout {
                 subHeadingParams.bottomMargin = extramargin;
                 subHeadingParams.topMargin = targetView.getViewTop() / 2 + spaceBelowLine;
                 subHeadingParams.gravity = Gravity.LEFT;
-                subHeadingTv.setGravity(Gravity.LEFT);
+                subHeadingTv.setGravity(subHeadingTvGravity);
 
             } else {//left
                 animPoints.add(new AnimPoint((targetView.getViewRight() - targetView.getViewWidth() / 2), targetView.getPoint().y - shapeRadiusForDiff - (isRectShape ? targetView.getViewHeight() / 2 : 0) - extraPaddingForArc,
@@ -774,8 +776,8 @@ public class SpotlightView extends FrameLayout {
                 subHeadingParams.leftMargin = (targetView.getViewRight() - targetView.getViewWidth() / 2) + extramargin;
                 subHeadingParams.topMargin = targetView.getViewTop() / 2 + spaceBelowLine;
                 subHeadingParams.bottomMargin = extramargin;
-                subHeadingParams.gravity = Gravity.RIGHT;
-                subHeadingTv.setGravity(Gravity.LEFT);
+                subHeadingParams.gravity = Gravity.END;
+                subHeadingTv.setGravity(subHeadingTvGravity);
 
             }
         } else {//top
@@ -803,7 +805,7 @@ public class SpotlightView extends FrameLayout {
                 subHeadingParams.bottomMargin = extramargin;
                 subHeadingParams.topMargin = ((screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()) + spaceBelowLine;
                 subHeadingParams.gravity = Gravity.LEFT;
-                subHeadingTv.setGravity(Gravity.LEFT);
+                subHeadingTv.setGravity(subHeadingTvGravity);
 
             } else {//left
                 animPoints.add(new AnimPoint(targetView.getViewRight() - targetView.getViewWidth() / 2,
@@ -834,8 +836,8 @@ public class SpotlightView extends FrameLayout {
                 subHeadingParams.leftMargin = targetView.getViewRight() - targetView.getViewWidth() / 2 + extramargin;
                 subHeadingParams.bottomMargin = extramargin;
                 subHeadingParams.topMargin = ((screenHeight - targetView.getViewBottom()) / 2 + targetView.getViewBottom()) + spaceBelowLine;
-                subHeadingParams.gravity = Gravity.RIGHT;
-                subHeadingTv.setGravity(Gravity.LEFT);
+                subHeadingParams.gravity = Gravity.END;
+                subHeadingTv.setGravity(subHeadingTvGravity);
             }
         }
 
@@ -1007,6 +1009,10 @@ public class SpotlightView extends FrameLayout {
 
     private void setSoftwareBtnHeight(int px){
         this.softwareBtnHeight = px;
+    }
+
+    public void setSubGravity(int gravity){
+        this.subHeadingTvGravity = gravity;
     }
 
     public void setTypeface(Typeface typeface) {
@@ -1196,6 +1202,11 @@ public class SpotlightView extends FrameLayout {
         }
         public Builder setRectShape() {
             spotlightView.isRectShape(true);
+            return this;
+        }
+
+        public Builder setSubGravity(int gravity) {
+            spotlightView.setSubGravity(gravity);
             return this;
         }
 
