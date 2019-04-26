@@ -167,6 +167,7 @@ public class SpotlightView extends FrameLayout {
     private int headingTvSizeDimenUnit = -1;
     private int headingTvGravity = Gravity.START;
     private int headingTvColor = Color.parseColor("#eb273f");
+    private int headingBgColor = Color.parseColor("#eb273f");
     private CharSequence headingTvText = "Hello";
 
     /**
@@ -176,6 +177,7 @@ public class SpotlightView extends FrameLayout {
     private int subHeadingTvSizeDimenUnit = -1;
     private int subHeadingTvGravity = Gravity.START;
     private int subHeadingTvColor = Color.parseColor("#ffffff");
+    private int subHeadingBgColor = Color.parseColor("#ffffff");
     private CharSequence subHeadingTvText = "Hello";
     private boolean isRectShape = false;
 
@@ -600,7 +602,10 @@ public class SpotlightView extends FrameLayout {
         headingTv.setVisibility(View.GONE);
         headingTv.setTextColor(headingTvColor);
         headingTv.setText(headingTvText);
-
+        headingTv.setBackgroundResource(R.drawable.head_bg);
+        headingTv.getBackground().setColorFilter(headingBgColor, PorterDuff.Mode.SRC_ATOP);
+        headingTv.setPadding(10,10,10,10);
+        headingTv.setIncludeFontPadding (false);
         subHeadingTv = new TextView(activity);
         if (mTypeface != null)
             subHeadingTv.setTypeface(mTypeface);
@@ -613,6 +618,9 @@ public class SpotlightView extends FrameLayout {
         subHeadingTv.setTextColor(subHeadingTvColor);
         subHeadingTv.setVisibility(View.GONE);
         subHeadingTv.setText(subHeadingTvText);
+        subHeadingTv.setBackgroundResource(R.drawable.subhead_bg);
+        subHeadingTv.getBackground().setColorFilter(subHeadingBgColor, PorterDuff.Mode.SRC_ATOP);
+        subHeadingTv.setPadding(10,10,10,10);
 
         //Line animation
         Paint p = new Paint();
@@ -902,6 +910,13 @@ public class SpotlightView extends FrameLayout {
     public void setDismissOnBackPress(boolean dismissOnBackPress) {
         this.dismissOnBackPress = dismissOnBackPress;
     }
+    public void setHeadingBgColor(int headingBgColor) {
+        this.headingBgColor = headingBgColor;
+    }
+
+    public void setSubHeadingBgColor(int subHeadingBgColor) {
+        this.subHeadingBgColor = subHeadingBgColor;
+    }
 
     public boolean isEnableDismissAfterShown() {
         return enableDismissAfterShown;
@@ -1138,6 +1153,11 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
+        public Builder headingBgColor(int color) {
+            spotlightView.setHeadingBgColor(color);
+            return this;
+        }
+
         public Builder headingTvText(CharSequence text) {
             spotlightView.setHeadingTvText(text);
             return this;
@@ -1155,6 +1175,11 @@ public class SpotlightView extends FrameLayout {
 
         public Builder subHeadingTvColor(int color) {
             spotlightView.setSubHeadingTvColor(color);
+            return this;
+        }
+
+        public Builder subHeadingBgColor(int color) {
+            spotlightView.setSubHeadingBgColor(color);
             return this;
         }
 
