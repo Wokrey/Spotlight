@@ -143,7 +143,7 @@ public class SpotlightView extends FrameLayout {
     /**
      * Margin from left, right, top and bottom till the line will stop
      */
-    private int gutter = Utils.dpToPx(36);
+    private int gutter = Utils.dpToPx(6);
 
     /**
      * Views Heading and sub-heading for spotlight
@@ -1022,6 +1022,14 @@ public class SpotlightView extends FrameLayout {
         this.lineEffect = pathEffect;
     }
 
+    public int getGutter() {
+        return gutter;
+    }
+
+    public void setGutter(int gutter) {
+        this.gutter = Utils.dpToPx(gutter);
+    }
+
     private void setSoftwareBtnHeight(int px){
         this.softwareBtnHeight = px;
     }
@@ -1090,6 +1098,10 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
+        public Builder gutter(int gutter) {
+            spotlightView.setGutter(gutter);
+            return this;
+        }
 
         public Builder target(View view) {
             spotlightView.setTargetView(new ViewTarget(view));
