@@ -165,6 +165,7 @@ public class SpotlightView extends FrameLayout {
      */
     private int headingTvSize = 24;
     private int headingTvSizeDimenUnit = -1;
+    private int headStartPadding = 5;
     private int headingTvGravity = Gravity.START;
     private int headingTvColor = Color.parseColor("#eb273f");
     private int headingBgColor = Color.parseColor("#eb273f");
@@ -175,6 +176,7 @@ public class SpotlightView extends FrameLayout {
      */
     private int subHeadingTvSize = 24;
     private int subHeadingTvSizeDimenUnit = -1;
+    private int subHeadStartPadding = 5;
     private int subHeadingTvGravity = Gravity.START;
     private int subHeadingTvColor = Color.parseColor("#ffffff");
     private int subHeadingBgColor = Color.parseColor("#ffffff");
@@ -604,7 +606,6 @@ public class SpotlightView extends FrameLayout {
         headingTv.setText(headingTvText);
         headingTv.setBackgroundResource(R.drawable.head_bg);
         headingTv.getBackground().setColorFilter(headingBgColor, PorterDuff.Mode.SRC_ATOP);
-        headingTv.setPadding(10,10,10,10);
         headingTv.setIncludeFontPadding (false);
         subHeadingTv = new TextView(activity);
         if (mTypeface != null)
@@ -620,7 +621,14 @@ public class SpotlightView extends FrameLayout {
         subHeadingTv.setText(subHeadingTvText);
         subHeadingTv.setBackgroundResource(R.drawable.subhead_bg);
         subHeadingTv.getBackground().setColorFilter(subHeadingBgColor, PorterDuff.Mode.SRC_ATOP);
-        subHeadingTv.setPadding(10,10,10,10);
+
+        if (subHeadingTvGravity == Gravity.START || subHeadingTvGravity == Gravity.LEFT){
+            headingTv.setPadding(headStartPadding,10,5,10);
+            subHeadingTv.setPadding(subHeadStartPadding,10, 5,10);
+        } else {
+            headingTv.setPadding(5,10,headStartPadding,10);
+            subHeadingTv.setPadding(5,10,subHeadStartPadding,10);
+        }
 
         //Line animation
         Paint p = new Paint();
@@ -743,14 +751,14 @@ public class SpotlightView extends FrameLayout {
                 headingParams.bottomMargin = screenHeight - targetView.getViewTop() / 2 + spaceAboveLine;
                 headingParams.topMargin = extramargin;
                 headingParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
-                headingTv.setGravity(Gravity.LEFT);
+                headingTv.setGravity(headingTvGravity);
 
 
                 subHeadingParams.rightMargin = screenWidth - (targetView.getViewRight() - targetView.getViewWidth() / 2) + extramargin;
                 subHeadingParams.leftMargin = gutter;
                 subHeadingParams.bottomMargin = extramargin;
                 subHeadingParams.topMargin = targetView.getViewTop() / 2 + spaceBelowLine;
-                subHeadingParams.gravity = Gravity.LEFT;
+                subHeadingParams.gravity = Gravity.START;
                 subHeadingTv.setGravity(subHeadingTvGravity);
 
             } else {//left
@@ -774,7 +782,7 @@ public class SpotlightView extends FrameLayout {
                 headingParams.bottomMargin = screenHeight - targetView.getViewTop() / 2 + spaceAboveLine;
                 headingParams.topMargin = extramargin;
                 headingParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
-                headingTv.setGravity(Gravity.LEFT);
+                headingTv.setGravity(Gravity.START);
 
 
                 if(screenHeight > screenWidth)
@@ -1244,6 +1252,20 @@ public class SpotlightView extends FrameLayout {
 
         public Builder setSubGravity(int gravity) {
             spotlightView.setSubGravity(gravity);
+            return this;
+        }
+        public Builder headStartPadding(int headStartPadding) {
+            spotlightView.headStartPadding = headStartPadding;
+            return this;
+        }
+
+        public Builder headingTvGravity(int headingTvGravity) {
+            spotlightView.headingTvGravity = headingTvGravity;
+            return this;
+        }
+
+        public Builder subHeadStartPadding(int subHeadStartPadding) {
+            spotlightView.subHeadStartPadding = subHeadStartPadding;
             return this;
         }
 
