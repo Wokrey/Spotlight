@@ -165,7 +165,7 @@ public class SpotlightView extends FrameLayout {
      */
     private int headingTvSize = 24;
     private int headingTvSizeDimenUnit = -1;
-    private int headStartPadding = 5;
+    private int headStartPadding = 10;
     private int headingTvGravity = Gravity.START;
     private int headingTvColor = Color.parseColor("#eb273f");
     private int headingBgColor = Color.parseColor("#eb273f");
@@ -176,7 +176,7 @@ public class SpotlightView extends FrameLayout {
      */
     private int subHeadingTvSize = 24;
     private int subHeadingTvSizeDimenUnit = -1;
-    private int subHeadStartPadding = 5;
+    private int subHeadStartPadding = 10;
     private int subHeadingTvGravity = Gravity.START;
     private int subHeadingTvColor = Color.parseColor("#ffffff");
     private int subHeadingBgColor = Color.parseColor("#ffffff");
@@ -623,11 +623,11 @@ public class SpotlightView extends FrameLayout {
         subHeadingTv.getBackground().setColorFilter(subHeadingBgColor, PorterDuff.Mode.SRC_ATOP);
 
         if (subHeadingTvGravity == Gravity.START || subHeadingTvGravity == Gravity.LEFT){
-            headingTv.setPadding(headStartPadding,10,5,10);
-            subHeadingTv.setPadding(subHeadStartPadding,10, 5,10);
+            headingTv.setPadding(headStartPadding,10,10,10);
+            subHeadingTv.setPadding(subHeadStartPadding,10, 10,10);
         } else {
-            headingTv.setPadding(5,10,headStartPadding,10);
-            subHeadingTv.setPadding(5,10,subHeadStartPadding,10);
+            headingTv.setPadding(10,10,headStartPadding,10);
+            subHeadingTv.setPadding(10,10,subHeadStartPadding,10);
         }
 
         //Line animation
